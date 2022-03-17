@@ -1,0 +1,51 @@
+<%- include partials/header.ejs %>
+
+<%- include partials/main_nav.ejs %>
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10">
+        
+        <a href="/add" class="btn btn-primary"><i class="fa fa-plus"></i> Add a book</a>
+        <br>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover table-dark">
+            <thead>
+              <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Question 1</th>
+                <th class="text-center">Question 2</th>
+                <th class="text-center">Question 3</th>
+                <th class="text-center">Edit</th>
+                <th class="text-center">Delete</th>
+              </tr>
+              </thead>
+              <tbody>
+              
+              <% for (let count = 0; count < survey.length; count++) { %>
+              <tr>
+                <td class="text-center"><%= count+1 %></td>
+                <td class="text-center"><%= survey[count].Question_1 %></td>
+                <td class="text-center"><%= survey[count].Question_2 %></td>
+                <td class="text-center"><%= survey[count].Question_3 %></td>
+                <td class="text-center">
+                  <a href="/<%= survey[count]._id %>" class="btn btn-primary"><i class="fa fa-solid fa-pen"></i> Edit</a>
+                </td>
+                <td class="text-center">
+                  <a href="/delete/<%= survey[count]._id %>" class="btn btn-primary"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                </td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+         <div class="col-md-offset-1 col-md-10 text-center">
+          <ul class="pagination pagination-lg pager" id="myPager"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<%- include partials/bottom_nav.ejs %>
+
+<%- include partials/footer.ejs %>
