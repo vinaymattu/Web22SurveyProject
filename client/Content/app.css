@@ -9,6 +9,16 @@ body {
     width: auto;
     
   }
+
+  .survey_table{
+    padding-top: 5%;
+  }
+
+  .header_nav{
+    position: sticky;
+    top: 0;
+  }
+
   .navbar .navbar-brand {
     padding: 0 10px;
     height: 45px;
