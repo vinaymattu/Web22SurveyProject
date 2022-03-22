@@ -47,4 +47,32 @@ router.post('/register', (req, res, next) => {
   })
 });
 
+/*Added below content for login page*/
+
+
+/* GET register page. */
+router.get('/login', function(req, res, next) {
+  res.render('register/login',{title:'login'});
+});
+
+module.exports.displayLoginPage =(req,res,next)=>{
+  //Check if the user already Logged In
+  if(!req.user)
+  {
+      res.render('register/login',
+      {
+          title:"Login",
+          messages:req.flash('loginMessage'),
+          displayName:req.user ? req.user.displayName:''
+      })
+  }
+  else
+  {
+       return res.redirect('/');
+  }
+}
+
+
 module.exports = router;
+
+

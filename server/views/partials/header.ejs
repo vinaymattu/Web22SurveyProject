@@ -7,6 +7,7 @@
     <!-- CSS SECTION -->
     <link rel="stylesheet" href="/Scripts/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/Scripts/lib/bootstrap/dist/css/bootstrap-theme.min.css">
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css' rel='stylesheet'/>
     <link rel="stylesheet" href="/Scripts/lib/font-awesome/css/font-awesome.min.css">
     <link rel='stylesheet' href='/Content/app.css' />
   </head>
@@ -38,6 +39,17 @@
           <li class="active"><a href="/surveys"><i class="fa fa-bar-chart fa-lg"></i> Survey List</a></li>
           <% } else { %>
             <li><a href="/surveys"><i class="fa fa-bar-chart fa-lg"></i> Survey List</a></li>
+          <% } %>
+
+          <% if(typeof displayName == 'string' && displayName) { %>
+            <li class="navbar-text"><i class="fas fa-lg fa-user"></i>Welcome,<%= displayName %></li>
+            <li class="nav-item">
+              <a href="/logout" class="nav-link">
+                <i class="fas fa-lg fa-sign-out-alt"></i> Logout</a></li>
+        <%  }else{ %>
+            <li class="nav-item">
+              <a href="/login" class="nav-link">
+                <i class="fas fa-lg fa-sign-in-alt"></i> Login</a></li>
           <% } %>
 
       </ul>
