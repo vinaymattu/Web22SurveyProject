@@ -28,7 +28,7 @@
     "node": "^10.15.0",
     "npm": "^6.0.0"
   },
-  "description": "## Welcome to the MidTerm Project - the Favourite Book List App",
+  "description": "## comp229-w2022-Project",
   "main": "server.js",
   "devDependencies": {
     "@types/body-parser": "^1.19.0",

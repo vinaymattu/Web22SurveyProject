@@ -7,6 +7,16 @@ let mongoose = require('mongoose');
 // define the survey model
 let survey = require('../models/surveys');
 
+//helper function for guard purposes
+function requireAuth(req, res, next)
+{
+    if(!req.isAuthenticated())
+    {
+        return res.redirect('/login');
+    }
+    next();
+}
+
 /* GET surveys List page. READ */
 router.get('/', (req, res, next) => {
   // find all surveys in the surveys collection
@@ -17,7 +27,8 @@ router.get('/', (req, res, next) => {
     else {
       res.render('surveys/active', {
         title: 'Surveys',
-        surveys: surveys
+        surveys: surveys,
+        displayName: req.user ? req.user.displayName : ''
       });
     }
   });
@@ -25,13 +36,14 @@ router.get('/', (req, res, next) => {
 });
 
 //  GET the Survey Details page in order to add a new Survey
-router.get('/add', (req, res, next) => {
-  res.render('surveys/details', {title: 'Add Survey', surveys: survey})  
+router.get('/add', requireAuth, (req, res, next) => {
+  res.render('surveys/details', {title: 'Add Survey', surveys: survey,
+  displayName: req.user ? req.user.displayName : ''})  
 
 });
 
 // POST process the Survey Details page and create a new Survey - CREATE
-router.post('/add', (req, res, next) => {
+router.post('/add', requireAuth, (req, res, next) => {
   let newSurveys = survey({
       "Title": req.body.Title,
       "Date": req.body.Date,
@@ -60,7 +72,7 @@ router.post('/add', (req, res, next) => {
 });
 
 // GET the Survey Details page in order to edit an existing Survey
-router.get('/edit/:id', (req, res, next) => {
+router.get('/edit/:id', requireAuth, (req, res, next) => {
   let id = req.params.id;
 
   survey.findById(id, (err, surveyToEdit) => {
@@ -72,13 +84,14 @@ router.get('/edit/:id', (req, res, next) => {
       else
       {
           // show the edit view
-          res.render('surveys/details', {title: 'Edit Survey', surveys: surveyToEdit})
+          res.render('surveys/details', {title: 'Edit Survey', surveys: surveyToEdit,
+          displayName: req.user ? req.user.displayName : ''})
       }
   });
 });
 
 // POST - process the information passed from the details form and update the document
-router.post('/edit/:id', (req, res, next) => {
+router.post('/edit/:id', requireAuth, (req, res, next) => {
   let id = req.params.id
 
   let updatedSurvey = survey({
@@ -121,7 +134,7 @@ router.get('/answer/:id', (req, res, next) => {
       else
       {
           // show the edit view
-          res.render('surveys/details', {title: 'Answer Survey', surveys: surveyToAnswer})
+          res.render('surveys/details', {title: 'Answer Survey',   displayName: req.user ? req.user.displayName : '', surveys: surveyToAnswer})
       }
   });
 });
@@ -158,7 +171,7 @@ router.post('/answer/:id', (req, res, next) => {
 });
 
 // GET - process the delete by user id
-router.get('/delete/:id', (req, res, next) => {
+router.get('/delete/:id', requireAuth, (req, res, next) => {
   let id = req.params.id;
 
   survey.remove({_id: id}, (err) => {

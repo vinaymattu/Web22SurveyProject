@@ -5,6 +5,13 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+//modules for authentication
+let passport = require('passport');
+let session = require('express-session');
+let passportLocal = require('passport-local');
+let localStrategy = passportLocal.Strategy;
+let flash = require ('connect-flash');
+
 // import "mongoose" - required for DB Access
 let mongoose = require('mongoose');
 // URI
@@ -18,7 +25,6 @@ mongoDB.once('open', ()=> {
   console.log("Connected to MongoDB...");
 });
 
-
 // define routers
 let index = require('../routes/index'); // top level routes
 let surveys = require('../routes/surveys'); // routes for surveys
@@ -29,13 +35,36 @@ let app = express();
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'ejs');
 
-// uncomment after placing your favicon in /client
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../client')));
 
+//setup express session
+app.use(session({
+  secret: "secret",
+  saveUninitialized: false,
+  resave: false
+  }))
+
+// initialize flash
+app.use(flash());
+
+//initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// create User Model Instance
+let userModel = require('../models/login');
+let User = userModel.loginModel;
+
+//implement a User Authentication Strategy
+passport.use(User.createStrategy());
+
+//serialize and deserialize the User info
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // route redirects
 app.use('/', index);

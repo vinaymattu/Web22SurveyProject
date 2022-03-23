@@ -6,7 +6,9 @@
         <div class="col-md-offset-1 col-md-10">
           <h3>Survey List </h3>
           <!-- ADD BUTTON -->
-          <a href="surveys/add" class="btn btn-primary"><i class="fa fa-plus"></i> Add a survey</a>
+          <% if (typeof displayName == 'string' && displayName) { %> 
+            <a href="surveys/add" class="btn btn-primary"><i class="fa fa-plus"></i> Add a survey</a>
+          <% } %>
           <br>
           <div class="table-responsive survey_table">
             <table class="table table-bordered table-striped table-hover">
@@ -21,8 +23,10 @@
                   <th class="text-center">Answer_2</th>
                   <th class="text-center">Question_3</th>
                   <th class="text-center">Answer_3</th>
-                  <th class="text-center"></th>
-                  <th class="text-center"></th>
+                  <% if (typeof displayName == 'string' && displayName) { %> 
+                    <th class="text-center"></th>
+                    <th class="text-center"></th>
+                  <% } %>
                 </tr>
                 </thead>
                 <tbody>
@@ -38,16 +42,18 @@
                   <td class="text-center"><%= surveys[count].Answer_2 %></td>
                   <td class="text-center"><%= surveys[count].Question_3 %></td>
                   <td class="text-center"><%= surveys[count].Answer_3 %></td>
-                <!-- EDIT BUTTON -->
-                  <td class="text-center">
+                  <% if (typeof displayName == 'string' && displayName) { %> 
+                  <!-- EDIT BUTTON -->
+                    <td class="text-center">
                     <a href="surveys/edit/<%= surveys[count]._id %>" class="bt btn-primary btn-sm">
-                     Edit</a>
-                  </td>
-                <!-- DELETE BUTTON -->
-                  <td class="text-center">
+                    Edit</a>
+                    </td>
+                  <!-- DELETE BUTTON -->
+                    <td class="text-center">
                     <a href="/surveys/delete/<%= surveys[count]._id %>" class="bt btn-danger btn-sm">
-                     Delete</a>
-                  </td>
+                    Delete</a>
+                    </td>
+                  <% } %>
                 </tr>
                 <% } %>
               </tbody>
