@@ -60,7 +60,7 @@ router.post('/register', (req, res, next) => {
         if(err.name == "UserExistsError")
         {
             req.flash(
-                'registerMessage',
+                'registerErrorMessage',
                 'Registration Error: User Already Exists!'
             );
             console.log('Error: User Already Exists!')
@@ -68,7 +68,7 @@ router.post('/register', (req, res, next) => {
         return res.render('register/register',
         {
             title: 'Register',
-            messages: req.flash('registerMessage')
+            messages: req.flash('registerErrorMessage')
         });
     }
     else
