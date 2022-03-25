@@ -12,7 +12,7 @@ let loginModel = login.loginModel;
 /* GET home page. wildcard */
 router.get('/', (req, res, next) => {
   
-  if(creq.user)
+  if(req.user)
   {
   survey.find( (err, surveys) => {
     if (err) {
@@ -137,7 +137,7 @@ router.post('/login', (req,res,next)=>{
 
 router.get('/logout', performLogout = (req, res, next) => {
   req.logout();
-  res.redirect('/');
+  res.redirect('/login');
 });
 
 module.exports = router;
