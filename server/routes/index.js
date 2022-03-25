@@ -11,6 +11,9 @@ let loginModel = login.loginModel;
 
 /* GET home page. wildcard */
 router.get('/', (req, res, next) => {
+  
+  if(creq.user)
+  {
   survey.find( (err, surveys) => {
     if (err) {
       return console.error(err);
@@ -23,6 +26,9 @@ router.get('/', (req, res, next) => {
       });
     }
   });
+}else{
+  res.redirect('/login')
+}
 });
 
 /* GET register page. */
