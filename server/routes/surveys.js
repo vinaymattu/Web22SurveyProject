@@ -18,7 +18,7 @@ function requireAuth(req, res, next)
 }
 
 /* GET surveys List page. READ */
-router.get('/', (req, res, next) => {
+router.get('/', requireAuth,(req, res, next) => {
   // find all surveys in the surveys collection
   survey.find( (err, surveys) => {
     if (err) {
